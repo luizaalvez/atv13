@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livraria</title>
+    <!-- Adicionando Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Busca de Livros</h1>
+        <form action="/buscar" method="GET" id="form-busca">
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipo" id="buscarTitulo" value="titulo" checked>
+                    <label class="form-check-label" for="buscarTitulo">Buscar por Título:</label>
+                </div>
+                <input type="text" class="form-control" name="termo" id="titulo" required><br>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipo" id="buscarAno" value="ano">
+                    <label class="form-check-label" for="buscarAno">Buscar por Ano:</label>
+                </div>
+                <input type="number" class="form-control" name="termo" id="ano" required><br>
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+
+        <% if (resultados !== null) { %>
+            <h2 class="mt-4">Resultados da Busca</h2>
+            <% if (resultados.length === 0) { %>
+                <p>Nenhum livro encontrado.</p>
+            <% } else { %>
+                <ul class="list-group mt-2">
+                    <% resultados.forEach(livro => { %>
+                        <li class="list-group-item"><%= livro.titulo %> - <%= livro.autor %> (<%= livro.ano %>)</li>
+                    <% }); %>
+                </ul>
+            <% } %>
+        <% } %>
+    </div>
+
+    <!-- Adicionando Bootstrap JavaScript (opcional, apenas se você precisar de funcionalidades como dropdowns, modals, etc) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        const form = document.getElementById('form-busca');
+        const tituloInput = document.getElementById('titulo');
+        const anoInput = document.getElementById('ano');
+
+        // Adiciona um event listener para detectar mudanças nos radio buttons
+        form.addEventListener('change', function(event) {
+            const tipoSelecionado = event.target.value;
+            if (tipoSelecionado === 'titulo') {
+                tituloInput.removeAttribute('disabled');
+                anoInput.setAttribute('disabled', 'disabled');
+            } else if (tipoSelecionado === 'ano') {
+                anoInput.removeAttribute('disabled');
+                tituloInput.setAttribute('disabled', 'disabled');
+            }
+        });
+    </script>
+</body>
+</html>
